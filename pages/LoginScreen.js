@@ -1,7 +1,42 @@
-import React from 'react';
-import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import * as yup from 'yup';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 
 export default function LoginScreen() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const schema = yup.object().shape({
+    email: yup.string().email('Invalid email format').required('Email is required'),
+    password: yup.string().required('Password is required')
+  });
+
+  const handleSubmit = () => {
+    console.log('Form submitted:', email, password); // Check if form is being submitted
+    
+    schema
+      .isValid({
+        email: email,
+        password: password
+      })
+      .then(valid => {
+        console.log('Form valid:', valid); // Check if validation is working
+        
+        if (!valid) {
+          Alert.alert('Form error', 'Form has invalid inputs', [
+            {
+              text: 'OK',
+              onPress: () => {
+                console.log('OK pressed');
+              }
+            }
+          ]);
+        } else {
+          // Handle successful form submission here
+          console.log('Form is valid');
+        }
+      });
+  };
+  
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
@@ -10,11 +45,20 @@ export default function LoginScreen() {
       <View style={styles.bottomContainer}>
         <View style={styles.innerContainer}>
           <View style={styles.inputContainer}>
-            <TextInput style={styles.textInput} placeholder="Email" />
-            <TextInput style={styles.textInput} placeholder="Password" />
+            <TextInput
+              style={styles.textInput}
+              placeholder="Email"
+              onChangeText={text => setEmail(text)}
+            />
+            <TextInput
+              style={styles.textInput}
+              placeholder="Password"
+              onChangeText={text => setPassword(text)}
+            />
           </View>
           <View style={styles.actionContainer}>
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity style={styles.actionButton} 
+                onPress={handleSubmit}>
               <Text style={styles.signIn}>Sign In</Text>
             </TouchableOpacity>
             <View style={styles.signUpOpt}>
@@ -90,30 +134,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 10
+    marginTop: 10,
   },
   signIn: {
     color: '#FFF',
     fontSize: 17,
-    fontWeight: 'bold'
-    
+    fontWeight: 'bold',
   },
   noAccountText: {
-    fontSize: 16
+    fontSize: 16,
   },
   signUpText: {
     color: '#1EA0E5',
     fontSize: 16,
     fontWeight: 'bold',
-    padding: 10
+    padding: 10,
   },
   forgotPasswordContainer: {
     alignItems: 'center',
-    
   },
   forgorPasswordText: {
     color: '#1EA0E5',
     fontSize: 16,
-    fontWeight: 'bold'
-  }
+    fontWeight: 'bold',
+  },
 });
