@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
 import React from 'react';
 
-const ChatRequest = () => {
+const ChatRequest = ({onPress}) => {
   return (
     <View style={styles.centered}>
       <View style={styles.container}>
@@ -10,7 +10,7 @@ const ChatRequest = () => {
           <TextInput placeholder='Message' style={styles.textInput} />
         </View>
         
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress= {() => onPress()}>
           <Text style={styles.buttonText}>Send Request</Text>
         </TouchableOpacity>
       </View>
