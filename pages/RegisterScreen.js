@@ -1,5 +1,5 @@
 import { View, StyleSheet, Text, Button, TouchableOpacity, TextInput} from 'react-native'
-export default function RegisterScreen() {
+export default function RegisterScreen({navigation}) {
   return (
     <View style={styles.container}>
         <View style={styles.topContainer}>
@@ -19,7 +19,7 @@ export default function RegisterScreen() {
                     </TouchableOpacity>
                 <View style={styles.registeredSec}>
                     <Text style={styles.registeredText}>Registered?</Text>
-                    <Text style={styles.signInText}>Sign In</Text>
+                    <Text style={styles.signInText} onPress={()=> navigation.navigate('Login')}>Sign In</Text>
                 </View>
             </View>
 
